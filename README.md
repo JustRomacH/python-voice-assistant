@@ -13,32 +13,32 @@
 
 #### Libraries used in project:
 
-autopep8
-beautifulsoup4
-certifi
-charset-normalizer
-comtypes
-docopt
-idna
-Js2Py
-packaging
-pipwin
-PyAudio
-pycodestyle
-pyjsparser
-pyparsing
-pypiwin32
-PyPrind
-pySmartDL
-pyttsx3
-pytz-deprecation-shim
-pywin32
-requests
-six
-soupsieve
-SpeechRecognition
-termcolor
-toml
-tzdata
-tzlocal
-urllib3
+- autopep8
+- beautifulsoup4
+- certifi
+- charset-normalizer
+- comtypes
+- docopt
+- idna
+- Js2Py
+- packaging
+- pipwin
+- PyAudio
+- pycodestyle
+- pyjsparser
+- pyparsing
+- pypiwin32
+- PyPrind
+- pySmartDL
+- pyttsx3
+- pytz-deprecation-shim
+- pywin32
+- requests
+- six
+- soupsieve
+- SpeechRecognition
+- termcolor
+- toml
+- tzdata
+- tzlocal
+- urllib3
