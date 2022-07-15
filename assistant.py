@@ -31,7 +31,7 @@ class Voice_assistant:
         return assist
 
     # Say that user said
-    def say(self, text) -> None:
+    def say(self, text: str) -> None:
         self.assist.say(text)
 
         self.assist.runAndWait()
