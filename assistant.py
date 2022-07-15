@@ -1,49 +1,51 @@
-import pyttsx3
 import os
+import pyttsx3
 import speech_recognition as sr
 from termcolor import cprint
-
-
-def create_assist() -> pyttsx3.Engine:
-    assist = pyttsx3.init()
-
-    evg_ru = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\TokenEnums\RHVoice\Evgeniy-Rus"
-
-    assist.setProperty("volume", 0.01)
-    assist.setProperty("voice", evg_ru)
-
-    return assist
 
 
 class Voice_assistant:
 
     def __init__(self):
 
-        self.assist = create_assist()
+        # self.assist = create_assist()
+        self.assist = self.__create_assist()
         self.stop_commands = ["стоп", "хватит", "прекращай", "замолчи"]
         self.commands = {
-            "repeat": ["скажи", "повтори", "repeat"],
-            "create_task": ["задача", "создать задачу", "заметка", "записка"],
-            "shutdown_pc": ["выключай", "выключи пк", "выключи комп"],
-            "reload_pc": ["перезагрузка", "перезагрузи пк", "перезагрузи комп", "перезагрузи"]
+            self.repeat: ["скажи", "повтори", "repeat"],
+            self.create_task: ["задача", "создать задачу", "заметка", "записка"],
+            self.shutdown_pc: ["выключай", "выключи пк", "выключи комп"],
+            self.reload_pc: ["перезагрузка", "перезагрузи пк",
+                             "перезагрузи комп", "перезагрузи"]
         }
 
+    # Returns voice assiastant
+    def __create_assist(self) -> pyttsx3.Engine:
+        assist = pyttsx3.init()
+
+        evg_ru = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\TokenEnums\RHVoice\Evgeniy-Rus"
+
+        assist.setProperty("volume", 0.01)
+        assist.setProperty("voice", evg_ru)
+
+        return assist
+
     # Say that user said
-    def say(self, text):
+    def say(self, text) -> None:
         self.assist.say(text)
 
         self.assist.runAndWait()
 
     # Reloads your pc
-    def reload_pc(self):
+    def reload_pc(self) -> None:
         os.system('shutdown -r -t 0')
 
     # Turns off your PC
-    def shutdown_pc(self):
+    def shutdown_pc(self) -> None:
         os.system('shutdown -s -t 0')
 
     # Repeats after user
-    def repeat(self):
+    def repeat(self) -> None:
         print("Скажи, что повторить")
         self.assist.say(self.get_user_text())
 
@@ -70,27 +72,26 @@ class Voice_assistant:
             cprint(f"[ERROR] {repr(ex)}", "red")
 
     # Creates task in todo_list.txt
-    def create_task(self):
+    def create_task(self) -> None:
         print("Скажи, что записать")
         # say("Скажи, что записать")
-        task = self.get_user_text()
-        if task != "Не понял что ты сказал":
-            with open("todo_list.txt", "a", encoding="utf-8") as f:
-                f.write(f"{task}\n")
-            print(f"Задача {task} успешно записана")
-        else:
-            self.say("Не понял что ты сказал")
-            self.create_task()
+        match task := self.get_user_text().capitalize():
+            case "Не понял что ты сказал":
+                self.say("Не понял что ты сказал")
+                self.create_task()
+            case _:
+                with open("todo_list.txt", "a", encoding="utf-8") as f:
+                    f.write(f"{task}\n")
+                print(f"Задача \"{task}\" успешно записана")
 
     # Starts assistant
     def start(self) -> None:
         while True:
             command = self.get_user_text()
-
-            for key, value in self.commands.items():
+            for _, value in self.commands.items():
                 if command in value:
                     # Calls function by key in commands dict
-                    globals()[key]()
+                    locals()["_"]()
 
                 elif command in self.stop_commands:
                     self.say("Пока")
