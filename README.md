@@ -4,8 +4,10 @@
 
 ### If you are using Windows, you need to use this command to install pyaudio:
 
-    pip install pipwin
-    pipwin install pyaudio
+```python
+pip install pipwin
+pipwin install pyaudio
+```
 
 #### Links:
 
